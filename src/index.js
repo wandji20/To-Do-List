@@ -1,3 +1,1 @@
-import './styles.scss'
-
-console.log('Yoooo Webpack');
+import './styles.scss';
