@@ -11,7 +11,7 @@
     <div class="list-container mb-4">
       <h3>My Task List</h3>
       <ul class="list">
-        <li>School</li>
+        <li class='active'>School</li>
         <li>Home</li>
         <li>Personal</li>
       </ul>
@@ -27,12 +27,16 @@
         <h5 class='mr-2'>List Name</h5> 
         <p>No uncompleted task</p>
       </div>
-      <ul>
-        <li>task1</li>
-        <li>task2</li>
-        <li>task3</li>
-        <li>task4</li>
-      </ul>
+      <div class='ml-4'>
+        <input type="checkbox" id=1>
+        <label for="1">Task1</label> <br>
+        <input type="checkbox" id=2>
+        <label for="2">Task2</label> <br>
+        <input type="checkbox" id=3>
+        <label for="3">Task3</label> <br>
+        <input type="checkbox"  id=4>
+        <label for="4" class='selected'>Task4 of current list</label> <br>
+      </div>
       <div class="task-form">
         <form action="">
           <input type="text", placeholder="   Add a Task " class='py-1'>

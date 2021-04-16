@@ -1,9 +1,11 @@
 @import "bootstrap";
+
 body {
   width: 100%;
   padding: 0;
   margin: 0;
 }
+
 #content {
   display: flex;
   flex-direction: column;
@@ -14,10 +16,16 @@ body {
   border: 3px solid black;
 }
 
+span,
 input {
   border: none;
   border-radius: 3px;
 }
+
+form input {
+  height: 35px;
+}
+
 #content span {
   background: #000;
   border-radius: 5px;
@@ -31,4 +39,19 @@ input {
 .remove-padding {
   padding-left: 0;
   padding-right: 0;
+}
+
+.selected {
+  text-decoration: line-through;
+  // color: transparent;
+  text-shadow: 0 0 8px #444;
+}
+
+li {
+  list-style: none;
+}
+
+.active {
+  font-size: 150%;
+  font-weight: 800;
 }
