@@ -61,16 +61,16 @@ start()
 function displayList(){
   const listUl = document.querySelector('.list')
   clearContent(listUl);
-
+  let selectedListId = localStorage.getItem('selectedListId');
   const taskLists = getList();
 
   taskLists.forEach((list)=>{
     const listItem = listUl.appendChild(document.createElement('li'));
     listItem.textContent = list.name;
     listItem.setAttribute('id', list.id);
-    // if(selectedListId === list.id){
-    //   listItem.classList.add('active')
-    // }
+    if(selectedListId === list.id){
+      listItem.classList.add('active')
+    }
   })
 
 }
@@ -90,19 +90,19 @@ function createList(){
 }
 
 function displayTasks(){
-  console.log(target)
-  // let selectedListId = target.id
-  // const lists = getList();
-  // const list = list.find((list)=> list.id === selectedListId)
-  // selectedListId = 
+  const lists = getList();
+  const list = lists.find((list)=> list.id === selectedListId)
+  localStorage.selectedListId = selectedListId;
+  displayList()
 }
 
 
 const listUl = document.querySelector('.list');
 listUl.addEventListener('click', (e)=>{
-  let selectedListId = e.target.id
-  const lists = getList();
-  const list = lists.find((list)=> list.id === selectedListId)
+  selectedListId = e.target.id
+  displayTasks();
+  // console.log(list);
+  // console.log(selectedListId);
 });
 
 const listBtn = document.querySelector('.list-btn')
