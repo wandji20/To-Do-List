@@ -27,6 +27,10 @@ function clearContent(item){
   item.textContent = '';
 }
 
+function clearField(field){
+  field.value = '';
+}
+
 function start(){
   const content = document.getElementById('content');
   const listContainer = content.appendChild(document.createElement('div'));
@@ -48,6 +52,8 @@ function start(){
   listBtn.textContent = '+'
 
 }
+
+
 start()
 
 
@@ -79,6 +85,7 @@ function createList(){
     const newList = new List(listName.value);
     list.push(newList);
     localStorage.taskLists = JSON.stringify(list);
+    clearField(listName);
   }
   displayList()
 }
@@ -86,14 +93,6 @@ function createList(){
 const listBtn = document.querySelector('.list-btn')
 listBtn.addEventListener('click', createList)
 
-// const listUl = document.querySelector('.list')
-// listUl.addEventListener('click', (e)=>{
-  
-//   const item = e.target.tagName.toLowerCase();
-//   if (item === 'li'){
-//     displayListTasks()
-//   }
-// })
 
 
 
