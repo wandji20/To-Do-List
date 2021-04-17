@@ -63,12 +63,11 @@ function displayList(){
   clearContent(listUl);
 
   const taskLists = getList();
-  console.log(taskLists)
 
   taskLists.forEach((list)=>{
     const listItem = listUl.appendChild(document.createElement('li'));
     listItem.textContent = list.name;
-    listItem.setAttribute('class', list.id);
+    listItem.setAttribute('id', list.id);
     // if(selectedListId === list.id){
     //   listItem.classList.add('active')
     // }
@@ -90,9 +89,24 @@ function createList(){
   displayList()
 }
 
+function displayTasks(){
+  console.log(target)
+  // let selectedListId = target.id
+  // const lists = getList();
+  // const list = list.find((list)=> list.id === selectedListId)
+  // selectedListId = 
+}
+
+
+const listUl = document.querySelector('.list');
+listUl.addEventListener('click', (e)=>{
+  let selectedListId = e.target.id
+  const lists = getList();
+  const list = lists.find((list)=> list.id === selectedListId)
+});
+
 const listBtn = document.querySelector('.list-btn')
 listBtn.addEventListener('click', createList)
-
 
 
 
