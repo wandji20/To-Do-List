@@ -17,6 +17,7 @@ class List {
   constructor(name){
     this.name = name;
     this.id = Date.now().toString();
+    this.tasks = [];
   }
   getName(){
     return this.name
@@ -50,6 +51,12 @@ function start(){
   let listBtn = listForm.appendChild(document.createElement('span'));
   listBtn.setAttribute('class','btn px-2 py-1 text-light fs-1 list-btn');
   listBtn.textContent = '+'
+
+
+  const listTasks = content.appendChild(document.createElement('div'));
+  listTasks.setAttribute('class', 'list-task')
+  const taskHeader = listTasks.appendChild(document.createElement('div'));
+  taskHeader.setAttribute('class', 'd-flex justify-content-between task-header');
 
 }
 
@@ -89,10 +96,56 @@ function createList(){
   displayList()
 }
 
-function displayTasks(){
+function displayTaskDetails(){
+  const content = document.querySelector('#content');
   const lists = getList();
   const list = lists.find((list)=> list.id === selectedListId)
+
+
+  const listTasks = document.querySelector('.list-task');
+  clearContent(listTasks);
+  const taskHeader = listTasks.appendChild(document.createElement('div'));
+  taskHeader.setAttribute('class', 'd-flex justify-content-between');
+  
+
+
+
+  const taskTitle = taskHeader.appendChild(document.createElement('h5'))
+  taskTitle.setAttribute('class', 'mr-2');
+  taskTitle.innerHTML = list.name;
+  const taskDetails = taskHeader.appendChild(document.createElement('p'))
+  taskDetails.innerHTML = `${list.tasks.length} Tasks`
+
+  const tasks = listTasks.appendChild(document.createElement('div'));
+  tasks.setAttribute('class','ml-4');
+  list.tasks.forEach((task)=>{
+    const input = tasks.appendChild(document.createElement('input') )
+    input.setAttribute('type', 'checkbox')
+    const label = tasks.appendChild(document.createElement('label'));
+    label.setAttribute('for',task.id);
+    label.textContent = task.name
+  })
+
+
+
+
+  const formContainer = listTasks.appendChild(document.createElement('div'));
+  formContainer.setAttribute('class', 'task-form')
+  const taskForm = formContainer.appendChild(document.createElement('form'));
+  const taskInput = taskForm.appendChild(document.createElement('input'));
+  taskInput.setAttribute('type', 'text');
+  taskInput.setAttribute('placeholder', '   Add a task');
+  taskInput.setAttribute('class', 'task-name py-1')
+  let taskBtn = taskForm.appendChild(document.createElement('span'));
+  taskBtn.setAttribute('class','btn px-2 py-1 text-light fs-1 list-btn');
+  taskBtn.textContent = '+'
+}
+
+function displayTasks(){
+
   localStorage.selectedListId = selectedListId;
+
+  displayTaskDetails()
   displayList()
 }
 
@@ -101,8 +154,6 @@ const listUl = document.querySelector('.list');
 listUl.addEventListener('click', (e)=>{
   selectedListId = e.target.id
   displayTasks();
-  // console.log(list);
-  // console.log(selectedListId);
 });
 
 const listBtn = document.querySelector('.list-btn')
