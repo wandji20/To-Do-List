@@ -100,7 +100,7 @@ function displayTaskDetails(){
   const content = document.querySelector('#content');
   const lists = getList();
   const list = lists.find((list)=> list.id === selectedListId)
-
+  console.log('here')
 
   const listTasks = document.querySelector('.list-task');
   clearContent(listTasks);
@@ -140,12 +140,13 @@ function displayTaskDetails(){
   taskBtn.setAttribute('class','btn px-2 py-1 text-light fs-1 list-btn');
   taskBtn.textContent = '+'
 }
+if (selectedListId){displayTaskDetails()}
 
 function displayTasks(){
 
   localStorage.selectedListId = selectedListId;
 
-  displayTaskDetails()
+  if (selectedListId){displayTaskDetails()}
   displayList()
 }
 
