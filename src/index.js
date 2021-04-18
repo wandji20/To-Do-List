@@ -97,12 +97,19 @@ function createList(){
 }
 
 function displayTaskDetails(){
+
   const content = document.querySelector('#content');
   const lists = getList();
   const list = lists.find((list)=> list.id === selectedListId)
-  console.log('here')
 
   const listTasks = document.querySelector('.list-task');
+  if(listTasks.style.display === ''){
+   listTasks.style.display = 'none'
+   localStorage.removeItem('selectedListId')
+  }else{
+    listTasks.style.display = ''
+    selectedListId = list.id;
+  }
   clearContent(listTasks);
   const taskHeader = listTasks.appendChild(document.createElement('div'));
   taskHeader.setAttribute('class', 'd-flex justify-content-between');
@@ -154,7 +161,8 @@ function displayTasks(){
 const listUl = document.querySelector('.list');
 listUl.addEventListener('click', (e)=>{
   selectedListId = e.target.id
-  displayTasks();
+
+  displayTasks(e);
 });
 
 const listBtn = document.querySelector('.list-btn')
