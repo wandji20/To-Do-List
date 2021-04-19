@@ -1,58 +1,95 @@
+// @import "bootstrap";
+
+// body {
+//   width: 100%;
+//   padding: 0;
+//   margin: 0;
+// }
+
+// #content {
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   color: white;
+//   height: 100vh;
+//   border: 3px solid black;
+// }
+
+// span,
+// input {
+//   border: none;
+//   border-radius: 3px;
+// }
+
+// form input {
+//   height: 35px;
+// }
+
+// #content span {
+//   background: #000;
+//   border-radius: 5px;
+//   margin-left: -4px;
+// }
+
+// #content div {
+//   align-self: center;
+// }
+
+// .remove-padding {
+//   padding-left: 0;
+//   padding-right: 0;
+// }
+
+// .selected {
+//   text-decoration: line-through;
+//   // color: transparent;
+//   text-shadow: 0 0 8px #444;
+// }
+
+// li {
+//   list-style: none;
+//   width: fit-content;
+// }
+
+// .active {
+//   font-size: 150%;
+//   font-weight: 800;
+// }
+
 @import "bootstrap";
 
-body {
-  width: 100%;
-  padding: 0;
-  margin: 0;
-}
-
 #content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
   height: 100vh;
-  border: 3px solid black;
 }
 
-span,
-input {
-  border: none;
-  border-radius: 3px;
+// #hidden {
+//   display: none;
+// }
+
+footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4vh;
 }
 
-form input {
-  height: 35px;
+.nav {
+  height: 7vh;
 }
 
-#content span {
-  background: #000;
+.main-content {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 90vh;
+}
+
+.project-section {
+  background: #ddd;
+}
+
+.btn,
+.add-project {
   border-radius: 5px;
-  margin-left: -4px;
-}
-
-#content div {
-  align-self: center;
-}
-
-.remove-padding {
-  padding-left: 0;
-  padding-right: 0;
-}
-
-.selected {
-  text-decoration: line-through;
-  // color: transparent;
-  text-shadow: 0 0 8px #444;
-}
-
-li {
-  list-style: none;
-  width: fit-content;
-}
-
-.active {
-  font-size: 150%;
-  font-weight: 800;
 }
