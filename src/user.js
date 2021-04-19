@@ -1,6 +1,26 @@
 
-
+let selectedListId = localStorage.getItem('selectedListId');
 const container = document.getElementById('content');
+
+
+class Project {
+  constructor(name){
+    this.name = name;
+    this.id = Date.now().toString();
+    this.todos = [];
+  }
+  getName(){
+    return this.name
+  }
+};
+
+function getProjects(){
+  if(localStorage.getItem('toDoProjects')){
+    return JSON.parse(localStorage.getItem('toDoProjects'));
+  }else{
+    return [];
+  }
+}
 
 function displayNav(){
   const nav = container.appendChild(document.createElement('nav'))
@@ -70,6 +90,7 @@ function displayProjectForm(){
 
   nameInput.setAttribute('class', 'form-control');
   nameInput.setAttribute('type','text' );
+  nameInput.setAttribute('id', 'project-name');
   nameInput.setAttribute('placeholder','   Project name' );
 
   const btnContainer = document.createElement('div');
@@ -88,17 +109,50 @@ function displayProjectForm(){
 
 
 
-  // formContainer.appendChild(addProject);
   formContainer.appendChild(projectForm);
   projectForm.appendChild(nameLabel);
   projectForm.appendChild(nameInput);
   formContainer.appendChild(btnContainer);
-  // formContainer.appendChild(submitBtn);
+
   btnContainer.appendChild(submitBtn);
   btnContainer.appendChild(cancelBtn);
   cancelBtn.addEventListener('click', start )
+  submitBtn.addEventListener('click', ()=>{
+    createProject(nameInput);
+  })
 
 }
 
 
+function createProject(target){
+  let projects = getProjects();
+  if (target.value !== ''){
+    const newProject = new Project(target.value);
+    projects.push(newProject);
+    localStorage.toDoProjects = JSON.stringify(projects);
+    target.value = '';
+    start();
+  }else{
+    alert('Please add a Project Name');
+  }
+}
+
+
+
 export {start};
+
+// function createList(){
+//   let list = getList();
+//   const listName = document.querySelector('.list-name');
+//   if (listName.value !== ''){
+//     const newList = new List(listName.value);
+//     list.push(newList);
+//     localStorage.taskLists = JSON.stringify(list);
+//     clearField(listName);
+//   }
+//   displayList()
+// }
+
+
+
+
