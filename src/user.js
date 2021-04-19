@@ -13,7 +13,7 @@ class Project {
     return this.name
   }
 };
-let predefinedProjects = [new Project('Today'), new Project('Tomorrow')]
+let predefinedProjects = [new Project('Inbox'), new Project('Today'), new Project('Tomorrow')]
 
 function getProjects(){
   if(localStorage.getItem('toDoProjects')){
@@ -88,15 +88,15 @@ function displayTaskForm(){
   const taskForm = projectContainer.appendChild(document.createElement('form'));
   taskForm.setAttribute('class', ' mx-auto mt-3')
 
-  const nameLabel = taskForm.appendChild(document.createElement('label'));
-  nameLabel.setAttribute('class', 'form-label');
-  nameLabel.setAttribute('for','task-title' );
-  nameLabel.innerHTML = 'Name';
+  const titleLabel = taskForm.appendChild(document.createElement('label'));
+  titleLabel.setAttribute('class', 'form-label');
+  titleLabel.setAttribute('for','task-title' );
+  titleLabel.innerHTML = 'Name';
 
-  const nameInput = taskForm.appendChild(document.createElement('input'));
-  nameInput.setAttribute('class', 'form-control task-title w-50');
-  nameInput.setAttribute('type','text' );
-  nameInput.setAttribute('placeholder','   Task title name' );
+  const titleInput = taskForm.appendChild(document.createElement('input'));
+  titleInput.setAttribute('class', 'form-control task-title w-50');
+  titleInput.setAttribute('type','text' );
+  titleInput.setAttribute('placeholder','   Task title name' );
 
   const descriptionLabel = taskForm.appendChild(document.createElement('label'));
   descriptionLabel.setAttribute('class', 'form-label mt-3');
@@ -104,7 +104,7 @@ function displayTaskForm(){
   descriptionLabel.innerHTML = 'Description';
 
   const description = taskForm.appendChild(document.createElement('textarea'));
-  nameInput.setAttribute('class', 'form-control mt-2 task-description w-75');
+  description.setAttribute('class', 'form-control mt-2 task-description w-75');
   description.setAttribute('placeholder','     Add Task description' );
 
   const priorityLabel = taskForm.appendChild(document.createElement('label'));
@@ -113,7 +113,7 @@ function displayTaskForm(){
   priorityLabel.innerHTML = 'Select Priority';
   const prioritySelectTag = taskForm.appendChild(document.createElement('select'))
   prioritySelectTag.setAttribute('class', 'w-50')
-  const priorities = ['Low', 'Average', 'Medium'];
+  const priorities = ['', 'Low', 'Average', 'Medium'];
   for(let i = 0; i< priorities.length; i += 1){
     const option = prioritySelectTag.appendChild(document.createElement('option'));
     option.setAttribute('value', priorities[i]);
@@ -126,7 +126,7 @@ function displayTaskForm(){
   // priorityLabel.setAttribute('for','task-title' );
   projectLabel.innerHTML = 'Select Project';
   const projectSelectTag = taskForm.appendChild(document.createElement('select'))
-  projectSelectTag.setAttribute('class', 'w-50')
+  projectSelectTag.setAttribute('class', 'w-50 project-select')
   const projects = getProjects();
   const option = projectSelectTag.appendChild(document.createElement('option'));
   if(selectedProjectId){
@@ -147,11 +147,19 @@ function displayTaskForm(){
   const createTaskBtn = buttons.appendChild(document.createElement('button'));
   createTaskBtn.setAttribute('class', 'btn bg-success')
   createTaskBtn.innerHTML = 'Create Task'
+  createTaskBtn.addEventListener('click', ()=>{
+    createTask(titleInput.value, description.value, prioritySelectTag.selectedIndex, projectSelectTag.selectedIndex)
+  })
+
   const cancelTaskBtn = buttons.appendChild(document.createElement('button'))
   cancelTaskBtn.setAttribute('class', 'btn bg-danger')
   cancelTaskBtn.innerHTML = 'Cancel'
+  cancelTaskBtn.addEventListener('click', start)
 
 
+}
+function createTask(title, description, priority, project){
+  console.log([title, description, priority, project])
 }
 
 function displayProjectForm(){
