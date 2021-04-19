@@ -1,5 +1,5 @@
 
-let selectedListId = localStorage.getItem('selectedListId');
+let selectedProjectId = localStorage.getItem('selectedProjectId');
 const container = document.getElementById('content');
 
 
@@ -54,6 +54,8 @@ function start(){
   const header = projectSection.appendChild(document.createElement('h3'));
   header.setAttribute('class', 'text-center mt-3');
   header.innerHTML = 'Projects';
+  const projectList = projectSection.appendChild(document.createElement('div'));
+  projectList.setAttribute('class', 'project-list mx-auto w-75')
 
   const formContainer = projectSection.appendChild(document.createElement('div'));
   formContainer.setAttribute('class', 'form-container mx-auto w-75')
@@ -67,7 +69,7 @@ function start(){
   const taskSection = mainContent.appendChild(document.createElement('section'));
   taskSection.setAttribute('class', 'task-section ');
 
-
+  displayProjects();
   displayfooter();
 }
 
@@ -137,20 +139,42 @@ function createProject(target){
   }
 }
 
+function displayProjects(){
+  const projectsList = document.querySelector('.project-list')
+  clearContent(projectsList);
+  let selectedProjectId = localStorage.getItem('selectedProjectId');
+  let projects = getProjects();
+
+  projects.forEach((project)=>{
+    const projectItem = projectsList.appendChild(document.createElement('h6'));
+    projectItem.textContent = project.name;
+    projectItem.setAttribute('id', project.id);
+    // if(selectedListId === list.id){
+    //   listItem.classList.add('active')
+    // }
+  })
+
+}
+
 
 
 export {start};
 
-// function createList(){
-//   let list = getList();
-//   const listName = document.querySelector('.list-name');
-//   if (listName.value !== ''){
-//     const newList = new List(listName.value);
-//     list.push(newList);
-//     localStorage.taskLists = JSON.stringify(list);
-//     clearField(listName);
-//   }
-//   displayList()
+// function displayList(){
+//   const listUl = document.querySelector('.list')
+//   clearContent(listUl);
+//   let selectedListId = localStorage.getItem('selectedListId');
+//   const taskLists = getList();
+
+//   taskLists.forEach((list)=>{
+//     const listItem = listUl.appendChild(document.createElement('li'));
+//     listItem.textContent = list.name;
+//     listItem.setAttribute('id', list.id);
+//     if(selectedListId === list.id){
+//       listItem.classList.add('active')
+//     }
+//   })
+
 // }
 
 
