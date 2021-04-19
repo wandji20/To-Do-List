@@ -13,6 +13,7 @@ class Project {
     return this.name
   }
 };
+let predefinedProjects = [new Project('Today'), new Project('Tomorrow')]
 
 function getProjects(){
   if(localStorage.getItem('toDoProjects')){
@@ -55,25 +56,103 @@ function start(){
   header.setAttribute('class', 'text-center mt-3');
   header.innerHTML = 'Projects';
   const projectList = projectSection.appendChild(document.createElement('div'));
-  projectList.setAttribute('class', 'project-list mx-auto w-75')
+  projectList.setAttribute('class', 'project-list mx-auto w-75');
 
   const formContainer = projectSection.appendChild(document.createElement('div'));
-  formContainer.setAttribute('class', 'form-container mx-auto w-75')
+  formContainer.setAttribute('class', 'form-container mx-auto w-75');
   const addProjectBtn = formContainer.appendChild(document.createElement('button'));
   
   addProjectBtn.setAttribute('class', 'btn text-center  mt-5 mx-auto text-white bg-dark add-project');
   addProjectBtn.textContent = 'Add Project';
-  addProjectBtn.addEventListener('click', displayProjectForm )
+  addProjectBtn.addEventListener('click', displayProjectForm );
 
   
   const taskSection = mainContent.appendChild(document.createElement('section'));
-  taskSection.setAttribute('class', 'task-section ');
+  taskSection.setAttribute('class', 'task-section');
+
+  const addTaskBtn = taskSection.appendChild(document.createElement('button'));
+  addTaskBtn.setAttribute('class', 'btn mt-2 ml-5 text-white bg-dark add-task');
+  addTaskBtn.innerHTML = 'Add Task'
+  addTaskBtn.addEventListener('click', displayTaskForm);
+  
+  const projectContainer = taskSection.appendChild(document.createElement('div'));
+  projectContainer.setAttribute('class', 'project-container ');
 
   displayProjects();
   displayfooter();
 }
 
+function displayTaskForm(){
+  const projectContainer = document.querySelector('.project-container');
+  clearContent(projectContainer);
+  const taskForm = projectContainer.appendChild(document.createElement('form'));
+  taskForm.setAttribute('class', ' mx-auto mt-3')
 
+  const nameLabel = taskForm.appendChild(document.createElement('label'));
+  nameLabel.setAttribute('class', 'form-label');
+  nameLabel.setAttribute('for','task-title' );
+  nameLabel.innerHTML = 'Name';
+
+  const nameInput = taskForm.appendChild(document.createElement('input'));
+  nameInput.setAttribute('class', 'form-control task-title w-50');
+  nameInput.setAttribute('type','text' );
+  nameInput.setAttribute('placeholder','   Task title name' );
+
+  const descriptionLabel = taskForm.appendChild(document.createElement('label'));
+  descriptionLabel.setAttribute('class', 'form-label mt-3');
+  descriptionLabel.setAttribute('for','task-description' );
+  descriptionLabel.innerHTML = 'Description';
+
+  const description = taskForm.appendChild(document.createElement('textarea'));
+  nameInput.setAttribute('class', 'form-control mt-2 task-description w-75');
+  description.setAttribute('placeholder','     Add Task description' );
+
+  const priorityLabel = taskForm.appendChild(document.createElement('label'));
+  priorityLabel.setAttribute('class', 'form-label mt-3');
+  // priorityLabel.setAttribute('for','task-title' );
+  priorityLabel.innerHTML = 'Select Priority';
+  const prioritySelectTag = taskForm.appendChild(document.createElement('select'))
+  prioritySelectTag.setAttribute('class', 'w-50')
+  const priorities = ['Low', 'Average', 'Medium'];
+  for(let i = 0; i< priorities.length; i += 1){
+    const option = prioritySelectTag.appendChild(document.createElement('option'));
+    option.setAttribute('value', priorities[i]);
+    option.innerHTML = priorities[i];
+  }
+
+
+  const projectLabel = taskForm.appendChild(document.createElement('label'));
+  projectLabel.setAttribute('class', 'form-label  mt-3');
+  // priorityLabel.setAttribute('for','task-title' );
+  projectLabel.innerHTML = 'Select Project';
+  const projectSelectTag = taskForm.appendChild(document.createElement('select'))
+  projectSelectTag.setAttribute('class', 'w-50')
+  const projects = getProjects();
+  const option = projectSelectTag.appendChild(document.createElement('option'));
+  if(selectedProjectId){
+    let project = projects.filter((project)=>{project.id === selectedProjectId})
+    option.setAttribute('value', project.name);
+    option.innerHTML = project.name;
+    
+  }else{
+    for(let i = 0; i< predefinedProjects.length; i += 1){
+      const option = projectSelectTag.appendChild(document.createElement('option'));
+      option.setAttribute('value', predefinedProjects[i].name);
+      option.innerHTML = predefinedProjects[i].name;
+    }
+  }
+
+  const buttons = projectContainer.appendChild(document.createElement('p'));
+  buttons.setAttribute('class', 'd-flex justify-content-between mt-4 w-75 mx-auto')
+  const createTaskBtn = buttons.appendChild(document.createElement('button'));
+  createTaskBtn.setAttribute('class', 'btn bg-success')
+  createTaskBtn.innerHTML = 'Create Task'
+  const cancelTaskBtn = buttons.appendChild(document.createElement('button'))
+  cancelTaskBtn.setAttribute('class', 'btn bg-danger')
+  cancelTaskBtn.innerHTML = 'Cancel'
+
+
+}
 
 function displayProjectForm(){
 
@@ -83,13 +162,13 @@ function displayProjectForm(){
   const projectForm = document.createElement('form');
 
   projectForm.setAttribute('class', 'project-form mx-auto hidden');
+
   const nameLabel = document.createElement('label');
-  
   nameLabel.setAttribute('class', 'form-label');
   nameLabel.setAttribute('for','project-name' );
   nameLabel.innerHTML = 'Name';
-  const nameInput = document.createElement('input');
 
+  const nameInput = document.createElement('input');
   nameInput.setAttribute('class', 'form-control');
   nameInput.setAttribute('type','text' );
   nameInput.setAttribute('id', 'project-name');
@@ -149,9 +228,9 @@ function displayProjects(){
     const projectItem = projectsList.appendChild(document.createElement('h6'));
     projectItem.textContent = project.name;
     projectItem.setAttribute('id', project.id);
-    // if(selectedListId === list.id){
-    //   listItem.classList.add('active')
-    // }
+    if(selectedProjectId === project.id){
+      projectItem.classList.add('active')
+    }
   })
 
 }
@@ -160,22 +239,7 @@ function displayProjects(){
 
 export {start};
 
-// function displayList(){
-//   const listUl = document.querySelector('.list')
-//   clearContent(listUl);
-//   let selectedListId = localStorage.getItem('selectedListId');
-//   const taskLists = getList();
 
-//   taskLists.forEach((list)=>{
-//     const listItem = listUl.appendChild(document.createElement('li'));
-//     listItem.textContent = list.name;
-//     listItem.setAttribute('id', list.id);
-//     if(selectedListId === list.id){
-//       listItem.classList.add('active')
-//     }
-//   })
-
-// }
 
 
 

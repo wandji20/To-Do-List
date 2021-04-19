@@ -93,3 +93,12 @@ footer {
 .add-project {
   border-radius: 5px;
 }
+.project-container form {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 75%;
+  margin: auto;
+}
+textarea {
+  border-radius: 6px;
+}

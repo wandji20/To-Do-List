@@ -203,15 +203,10 @@ import './styles.scss';
 import {start} from './user'
 
 
-// const addProject = document.querySelector('.add-project');
-// addProject.addEventListener('click', displayProjectForm )
 
 start()
 
-// const addProject = document.querySelector('.add-project');
-// addProject.addEventListener('click', displayProjectForm )
-// const cancelBtn = document.querySelector('.cancel-btn');
-// cancelBtn.addEventListener('click', start )
+
 
 
 
