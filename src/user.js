@@ -20,6 +20,7 @@ class Task{
     this.description = description;
     this.priority = priority;
     this.project = project;
+    this.id = Date.now().toString();
   }
 }
 let predefinedProjects = [new Project('Inbox'), new Project('Today'), new Project('Tomorrow')]
@@ -261,17 +262,34 @@ function displayProjects(){
   projects.forEach((project)=>{
     const projectItem = projectsList.appendChild(document.createElement('h6'));
     projectItem.textContent = project.name;
-    projectItem.setAttribute('id', project.id);
-    if(selectedProjectId === project.id){
+    projectItem.setAttribute('id', project.id+project.name);
+    if(selectedProjectId === projectItem.id){
       projectItem.classList.add('active')
     }
   })
 
 }
 
+function displayTodos(id){
+  let projects = getProjects();
+  let project = projects.find((element)=> element.id === id );
+  console.log(project)
+  if (project){
+    const projectContainer = document.querySelector('.project-container');
+    clearContent(projectContainer);
+    project.todos.forEach((item)=>{
+      let todo = projectContainer.appendChild(document.createElement('input'))
+      todo.setAttribute('class', 'mt-5');
+
+    })
+  }
+}
 
 
-export {start};
+
+
+
+export {start, displayTodos};
 
 
 
