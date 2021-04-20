@@ -87,7 +87,7 @@ function start(){
   addTaskBtn.addEventListener('click', displayTaskForm);
   
   const projectContainer = taskSection.appendChild(document.createElement('div'));
-  projectContainer.setAttribute('class', 'project-container ');
+  projectContainer.setAttribute('class', 'project-container mt-4 mx-3 ');
 
   displayProjects();
   displayfooter();
@@ -272,15 +272,23 @@ function displayProjects(){
 
 function displayTodos(id){
   let projects = getProjects();
-  let project = projects.find((element)=> element.id === id );
-  console.log(project)
+  let project = projects.find((element)=> element.id+element.name === id );
+  console.log(projects)
   if (project){
     const projectContainer = document.querySelector('.project-container');
     clearContent(projectContainer);
     project.todos.forEach((item)=>{
-      let todo = projectContainer.appendChild(document.createElement('input'))
-      todo.setAttribute('class', 'mt-5');
+      const pTag = projectContainer.appendChild(document.createElement('p'));
 
+      let todoCheckBox = pTag.appendChild(document.createElement('input'))
+      todoCheckBox.setAttribute('class', 'd-inline-block mx-3');
+      todoCheckBox.setAttribute('type', 'checkbox');
+      todoCheckBox.setAttribute('id', item.id);
+
+      let todoLabel = pTag.appendChild(document.createElement('label'))
+      todoLabel.setAttribute('class', 'd-inline-block');
+      todoCheckBox.setAttribute('for', item.id);
+      todoLabel.innerHTML = item.description;
     })
   }
 }
