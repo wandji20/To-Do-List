@@ -13,13 +13,23 @@ class Project {
     return this.name
   }
 };
+
+class Task{
+  constructor(title, description, priority, project){
+    this.title = title;
+    this.description = description;
+    this.priority = priority;
+    this.project = project;
+  }
+}
 let predefinedProjects = [new Project('Inbox'), new Project('Today'), new Project('Tomorrow')]
 
 function getProjects(){
   if(localStorage.getItem('toDoProjects')){
     return JSON.parse(localStorage.getItem('toDoProjects'));
   }else{
-    return [];
+    localStorage.toDoProjects = JSON.stringify(predefinedProjects);
+    return predefinedProjects;
   }
 }
 
@@ -113,7 +123,7 @@ function displayTaskForm(){
   priorityLabel.innerHTML = 'Select Priority';
   const prioritySelectTag = taskForm.appendChild(document.createElement('select'))
   prioritySelectTag.setAttribute('class', 'w-50')
-  const priorities = ['', 'Low', 'Average', 'Medium'];
+  const priorities = ['', 'Low', 'Average', 'High'];
   for(let i = 0; i< priorities.length; i += 1){
     const option = prioritySelectTag.appendChild(document.createElement('option'));
     option.setAttribute('value', priorities[i]);
@@ -128,6 +138,7 @@ function displayTaskForm(){
   const projectSelectTag = taskForm.appendChild(document.createElement('select'))
   projectSelectTag.setAttribute('class', 'w-50 project-select')
   const projects = getProjects();
+  // const allProjects = projects.concat(predefinedProjects)
   const option = projectSelectTag.appendChild(document.createElement('option'));
   if(selectedProjectId){
     let project = projects.filter((project)=>{project.id === selectedProjectId})
@@ -135,10 +146,10 @@ function displayTaskForm(){
     option.innerHTML = project.name;
     
   }else{
-    for(let i = 0; i< predefinedProjects.length; i += 1){
+    for(let i = 0; i< projects.length; i += 1){
       const option = projectSelectTag.appendChild(document.createElement('option'));
-      option.setAttribute('value', predefinedProjects[i].name);
-      option.innerHTML = predefinedProjects[i].name;
+      option.setAttribute('value', projects[i].name);
+      option.innerHTML = projects[i].name;
     }
   }
 
@@ -147,8 +158,10 @@ function displayTaskForm(){
   const createTaskBtn = buttons.appendChild(document.createElement('button'));
   createTaskBtn.setAttribute('class', 'btn bg-success')
   createTaskBtn.innerHTML = 'Create Task'
+
+
   createTaskBtn.addEventListener('click', ()=>{
-    createTask(titleInput.value, description.value, prioritySelectTag.selectedIndex, projectSelectTag.selectedIndex)
+    createTask(titleInput.value, description.value, prioritySelectTag.value, projectSelectTag.value)
   })
 
   const cancelTaskBtn = buttons.appendChild(document.createElement('button'))
@@ -159,7 +172,20 @@ function displayTaskForm(){
 
 }
 function createTask(title, description, priority, project){
-  console.log([title, description, priority, project])
+  const projects = getProjects();
+
+  console.log(projects)
+  if (title !== '' && description !== '' & priority !== '' && project !== ''){
+
+    const selectedProjectIndex = projects.findIndex(({name})=> name === project);
+    const newTask = new Task(title, description, priority, project);
+    projects[selectedProjectIndex].todos.push(newTask);
+    localStorage.toDoProjects = JSON.stringify(projects);
+    start();
+
+  }else{
+    alert('Please fill all fields')
+  }
 }
 
 function displayProjectForm(){
