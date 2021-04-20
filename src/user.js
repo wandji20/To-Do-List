@@ -279,7 +279,10 @@ function displayTodos(id){
     const projectContainer = document.querySelector('.project-container');
     clearContent(projectContainer);
     project.todos.forEach((item)=>{
-      const pTag = projectContainer.appendChild(document.createElement('p'));
+
+      const itemCont = projectContainer.appendChild(document.createElement('div'));
+      itemCont.setAttribute('class', 'd-flex justify-content-between')
+      const pTag = itemCont.appendChild(document.createElement('p'));
 
       let todoCheckBox = pTag.appendChild(document.createElement('input'))
       todoCheckBox.setAttribute('class', 'd-inline-block mx-3');
@@ -290,7 +293,17 @@ function displayTodos(id){
       todoLabel.setAttribute('class', 'd-inline-block');
       todoCheckBox.setAttribute('for', item.id);
       todoLabel.innerHTML = item.description;
+  
       
+      const span = itemCont.appendChild(document.createElement('span'));
+      span.setAttribute('class', 'd-inline-block')
+      const editBtn = span.appendChild(document.createElement('button'));
+      editBtn.setAttribute('class', 'bg-info btn mr-2')
+      editBtn.innerHTML = 'Edit'
+      const removeBtn = span.appendChild(document.createElement('button'));
+      removeBtn.setAttribute('class', 'bg-danger btn')
+      removeBtn.innerHTML = 'Remove'
+
       if(item.status){
         todoCheckBox.checked = true;
         todoLabel.classList.add('done-task');
