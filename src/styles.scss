@@ -4,6 +4,7 @@
   font-size: 150%;
   font-weight: 800;
 }
+
 #content {
   height: 100vh;
 }
@@ -42,12 +43,14 @@ footer {
 .add-project {
   border-radius: 5px;
 }
+
 .project-container form {
   display: grid;
   grid-template-columns: 1fr;
   width: 75%;
   margin: auto;
 }
+
 textarea {
   border-radius: 6px;
 }
