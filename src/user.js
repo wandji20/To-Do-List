@@ -90,6 +90,7 @@ function start(){
   const projectContainer = taskSection.appendChild(document.createElement('div'));
   projectContainer.setAttribute('class', 'project-container mt-4 mx-3 ');
 
+  // console.log(selectedProjectId)
   displayProjects();
   displayfooter();
 }
@@ -264,9 +265,20 @@ function displayProjects(){
     const projectItem = projectsList.appendChild(document.createElement('h6'));
     projectItem.textContent = project.name;
     projectItem.setAttribute('id', project.id+project.name);
-    if(selectedProjectId === projectItem.id){
-      projectItem.classList.add('active')
-    }
+
+  if(selectedProjectId === null){
+    selectedProjectId = projectItem.id;
+    console.log(selectedProjectId)
+    localStorage.selectedProjectId = projectItem.id;
+  }else{
+    // console.log('got an id')
+    // displayTodos(selectedProjectId);
+  }
+  if(selectedProjectId === projectItem.id){
+    projectItem.classList.add('active')
+  }
+  displayTodos(selectedProjectId);
+
   })
 
 }

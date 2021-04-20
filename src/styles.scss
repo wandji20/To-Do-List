@@ -52,13 +52,12 @@
 //   width: fit-content;
 // }
 
-// .active {
-//   font-size: 150%;
-//   font-weight: 800;
-// }
-
 @import "bootstrap";
 
+.active {
+  font-size: 150%;
+  font-weight: 800;
+}
 #content {
   height: 100vh;
 }
