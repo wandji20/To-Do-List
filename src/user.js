@@ -3,9 +3,9 @@ import displayFooter from './footer';
 // eslint-disable-next-line import/no-cycle
 import { createTodo, updateStatus, removeTodo } from './todo';
 // eslint-disable-next-line import/no-cycle
-import { Project, createProject } from './project';
+import { Project, createProject, removeProject } from './project';
 
-// const selectedProjectId = localStorage.getItem('selectedProjectId');
+const selectedProjectId = localStorage.getItem('selectedProjectId');
 const container = document.getElementById('content');
 const predefinedProjects = [new Project('Inbox'), new Project('Today'), new Project('Tomorrow')];
 
@@ -122,15 +122,17 @@ function displayTaskForm() {
   cancelTaskBtn.setAttribute('class', 'btn bg-danger');
   cancelTaskBtn.innerHTML = 'Cancel';
   cancelTaskBtn.addEventListener('click', displayProjects);
+
+
 }
 
 function displayTodos(id) {
   const projects = getProjects();
   const project = projects.find((element) => element.id + element.name === id);
+  const projectContainer = document.querySelector('.project-container');
+  clearContent(projectContainer);
 
   if (project) {
-    const projectContainer = document.querySelector('.project-container');
-    clearContent(projectContainer);
     project.todos.forEach((item) => {
       const itemCont = projectContainer.appendChild(document.createElement('div'));
       itemCont.setAttribute('class', `d-flex justify-content-between ${item.id}`);
@@ -174,7 +176,24 @@ function displayTodos(id) {
       });
     });
   }
+  if (localStorage.getItem('selectedProjectId')){
+
+    const deleteProjectBtn = projectContainer.appendChild(document.createElement('button'))
+    deleteProjectBtn.setAttribute('class', 'btn bg-danger remove-project-btn')
+    deleteProjectBtn.innerHTML = 'Delete Project'
+    deleteProjectBtn.addEventListener('click', ()=>{
+      clearContent(projectContainer)
+      localStorage.removeItem('selectedProjectId');
+      removeProject(projects, project);
+      let removed = document.getElementById(`${project.id}${project.name}`);
+      let projectList = document.querySelector('.project-list')
+      projectList.removeChild(removed)
+ 
+    })
+  }
+
 }
+
 
 function start() {
   clearContent(container);

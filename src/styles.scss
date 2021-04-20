@@ -35,9 +35,14 @@ footer {
   background-color: lightgreen;
 }
 
-// .project-container{
-
-// }
+.project-container {
+  height: 82vh;
+}
+.remove-project-btn {
+  position: fixed;
+  bottom: 7vh;
+  right: 35px;
+}
 
 .btn,
 .add-project {
