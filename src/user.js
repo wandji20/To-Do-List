@@ -285,36 +285,42 @@ function displayTodos(id){
       todoCheckBox.setAttribute('class', 'd-inline-block mx-3');
       todoCheckBox.setAttribute('type', 'checkbox');
       todoCheckBox.setAttribute('id', item.id);
-      
+
       let todoLabel = pTag.appendChild(document.createElement('label'))
       todoLabel.setAttribute('class', 'd-inline-block');
       todoCheckBox.setAttribute('for', item.id);
       todoLabel.innerHTML = item.description;
       
+      if(item.status){
+        todoCheckBox.checked = true;
+        todoLabel.classList.add('done-task');
+      }
+      
       todoCheckBox.addEventListener('click', ()=>{
-        console.log(item.status);
-        // if (item.status === true){
-        //   console.log(item.status);
-        //   // todoLabel.classList.add('done-task');
-        // }else{
-        //   console.log(item);
-        //   // todoLabel.classList.remove('done-task')
-        // }
-        updateStatus(projects, project, item.id)
+
+        if (todoCheckBox.checked){
+          todoLabel.classList.add('done-task');
+        }else{
+          todoLabel.classList.remove('done-task')
+        }
+        updateStatus(projects, project, item)
       })
     })
   }
 }
 
 function updateStatus(projects, project, id){
-  let todo = project.todos.find((element)=> element.id = id);
+  let todos = project.todos;
+  for (let i=0; i<todos.length; i+=1){
+
+    if(todos[i].status === true){
+      todos[i].status = false;
+    }else{
+      todos[i].status = true;
+    }
+  }
   // console.log(id)
   // console.log(todo.description)
-  if(todo.status === true){
-    todo.status = false;
-  }else{
-    todo.status = true;
-  }
   localStorage.toDoProjects = JSON.stringify(projects);
 }
 
