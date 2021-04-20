@@ -1,7 +1,5 @@
 import './styles.scss';
 
-import {start} from './user'
+import { start } from './user';
 
-
-
-start()
+start();

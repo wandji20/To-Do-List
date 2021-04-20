@@ -1,7 +1,8 @@
-import {getProjects, start} from './user'
+// eslint-disable-next-line import/no-cycle
+import { getProjects, start } from './user';
 
-class Task{
-  constructor(title, description, priority, project){
+class Todo {
+  constructor(title, description, priority, project) {
     this.title = title;
     this.description = description;
     this.priority = priority;
@@ -11,41 +12,37 @@ class Task{
   }
 }
 
-
-function createTask(title, description, priority, project){
+function createTodo(title, description, priority, project) {
   const projects = getProjects();
 
-  console.log(projects)
-  if (title !== '' && description !== '' & priority !== '' && project !== ''){
-
-    const selectedProjectIndex = projects.findIndex(({name})=> name === project);
-    const newTask = new Task(title, description, priority, project);
-    projects[selectedProjectIndex].todos.push(newTask);
+  if (title !== '' && description !== '' && priority !== '' && project !== '') {
+    const selectedProjectIndex = projects.findIndex(({ name }) => name === project);
+    const newTodo = new Todo(title, description, priority, project);
+    projects[selectedProjectIndex].todos.push(newTodo);
     localStorage.toDoProjects = JSON.stringify(projects);
     start();
-
-  }else{
-    alert('Please fill all fields')
+  } else {
+    alert('Please fill all fields');
   }
 }
 
-function updateStatus(projects, project, id){
-  let todos = project.todos;
-  for (let i=0; i<todos.length; i+=1){
-
-    if(todos[i].status === true){
-      todos[i].status = false;
-    }else{
-      todos[i].status = true;
+function updateStatus(projects, project, id) {
+  for (let i = 0; i < project.todos.length; i += 1) {
+    if (project.todos[i].id === id && project.todos[i].status === true) {
+      project.todos[i].status = false;
+    } else if (project.todos[i].id === id && project.todos[i].status === false) {
+      project.todos[i].status = true;
     }
   }
 
   localStorage.toDoProjects = JSON.stringify(projects);
 }
 
-function removeTodo(projects, project, todoId){
-  project.todos = project.todos.filter((x)=> x.id !== todoId)
+function removeTodo(projects, project, todoId) {
+  project.todos = project.todos.filter((x) => x.id !== todoId);
   localStorage.toDoProjects = JSON.stringify(projects);
 }
 
-export {Task, createTask, updateStatus, removeTodo}
+export {
+  Todo, createTodo, updateStatus, removeTodo,
+};
