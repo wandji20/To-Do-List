@@ -26,11 +26,10 @@ function createProject(target) {
   }
 }
 
-function removeProject(projects, project){
-  projects = projects.filter((element)=> element.id !== project.id);
-  console.log(projects)
+function removeProject(projects, project) {
+  projects = projects.filter((element) => element.id !== project.id);
+  console.log(projects);
   localStorage.toDoProjects = JSON.stringify(projects);
 }
-
 
 export { createProject, Project, removeProject };

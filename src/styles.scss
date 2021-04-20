@@ -38,6 +38,7 @@ footer {
 .project-container {
   height: 82vh;
 }
+
 .remove-project-btn {
   position: fixed;
   bottom: 7vh;
@@ -65,7 +66,8 @@ textarea {
   text-shadow: 0 0 8px #444;
 }
 
-.project-list h6:hover {
+.project-list h6:hover,
+h3:hover {
   background-color: lightgrey;
   cursor: pointer;
 }

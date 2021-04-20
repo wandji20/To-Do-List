@@ -5,7 +5,7 @@ import { createTodo, updateStatus, removeTodo } from './todo';
 // eslint-disable-next-line import/no-cycle
 import { Project, createProject, removeProject } from './project';
 
-const selectedProjectId = localStorage.getItem('selectedProjectId');
+// const selectedProjectId = localStorage.getItem('selectedProjectId');
 const container = document.getElementById('content');
 const predefinedProjects = [new Project('Inbox'), new Project('Today'), new Project('Tomorrow')];
 
@@ -34,6 +34,8 @@ function displayProjects() {
     projectItem.addEventListener('click', () => {
       selectedProjectId = projectItem.id;
       localStorage.selectedProjectId = projectItem.id;
+      // projectItem.classList.add('active')
+
       // eslint-disable-next-line no-use-before-define
       displayTodos(selectedProjectId);
     });
@@ -122,17 +124,29 @@ function displayTaskForm() {
   cancelTaskBtn.setAttribute('class', 'btn bg-danger');
   cancelTaskBtn.innerHTML = 'Cancel';
   cancelTaskBtn.addEventListener('click', displayProjects);
-
-
 }
 
 function displayTodos(id) {
   const projects = getProjects();
   const project = projects.find((element) => element.id + element.name === id);
+
   const projectContainer = document.querySelector('.project-container');
   clearContent(projectContainer);
 
   if (project) {
+    const projectDetails = projectContainer.appendChild(document.createElement('p'));
+    projectDetails.setAttribute('class', 'd-flex justify-content-around active');
+
+    const projectName = projectDetails.appendChild(document.createElement('span'));
+    projectName.innerHTML = project.name;
+    projectName.setAttribute('class', '');
+
+    // const projectCount = projectDetails.appendChild(document.createElement('span'));
+    // projectCount.innerHTML = `${project.todos.filter((element)=> {
+    //   element.status === true
+    // } ).length} task completed`;
+    // projectCount.setAttribute('class', '');
+
     project.todos.forEach((item) => {
       const itemCont = projectContainer.appendChild(document.createElement('div'));
       itemCont.setAttribute('class', `d-flex justify-content-between ${item.id}`);
@@ -176,24 +190,20 @@ function displayTodos(id) {
       });
     });
   }
-  if (localStorage.getItem('selectedProjectId')){
-
-    const deleteProjectBtn = projectContainer.appendChild(document.createElement('button'))
-    deleteProjectBtn.setAttribute('class', 'btn bg-danger remove-project-btn')
-    deleteProjectBtn.innerHTML = 'Delete Project'
-    deleteProjectBtn.addEventListener('click', ()=>{
-      clearContent(projectContainer)
+  if (localStorage.getItem('selectedProjectId')) {
+    const deleteProjectBtn = projectContainer.appendChild(document.createElement('button'));
+    deleteProjectBtn.setAttribute('class', 'btn bg-danger remove-project-btn');
+    deleteProjectBtn.innerHTML = 'Delete Project';
+    deleteProjectBtn.addEventListener('click', () => {
+      clearContent(projectContainer);
       localStorage.removeItem('selectedProjectId');
       removeProject(projects, project);
-      let removed = document.getElementById(`${project.id}${project.name}`);
-      let projectList = document.querySelector('.project-list')
-      projectList.removeChild(removed)
- 
-    })
+      const removed = document.getElementById(`${project.id}${project.name}`);
+      const projectList = document.querySelector('.project-list');
+      projectList.removeChild(removed);
+    });
   }
-
 }
-
 
 function start() {
   clearContent(container);
@@ -205,6 +215,7 @@ function start() {
   const header = projectSection.appendChild(document.createElement('h3'));
   header.setAttribute('class', 'text-center mt-3');
   header.innerHTML = 'Projects';
+
   const projectList = projectSection.appendChild(document.createElement('div'));
   projectList.setAttribute('class', 'project-list mx-auto w-75');
 
@@ -228,6 +239,10 @@ function start() {
   const projectContainer = taskSection.appendChild(document.createElement('div'));
   projectContainer.setAttribute('class', 'project-container mt-4 mx-3 ');
 
+  header.addEventListener('click', () => {
+    clearContent(projectContainer);
+    localStorage.removeItem('selectedProjectId');
+  });
   // console.log(selectedProjectId)
   displayProjects();
   displayFooter();
