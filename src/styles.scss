@@ -110,3 +110,8 @@ footer {
 textarea {
   border-radius: 6px;
 }
+
+.done-task {
+  text-decoration: line-through;
+  text-shadow: 0 0 8px #444;
+}

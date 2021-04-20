@@ -284,11 +284,19 @@ function displayTodos(id){
       todoCheckBox.setAttribute('class', 'd-inline-block mx-3');
       todoCheckBox.setAttribute('type', 'checkbox');
       todoCheckBox.setAttribute('id', item.id);
-
+      
       let todoLabel = pTag.appendChild(document.createElement('label'))
       todoLabel.setAttribute('class', 'd-inline-block');
       todoCheckBox.setAttribute('for', item.id);
       todoLabel.innerHTML = item.description;
+      
+      todoCheckBox.addEventListener('click', ()=>{
+        if (todoCheckBox.checked){
+          todoLabel.classList.add('done-task');
+        }else{
+          todoLabel.classList.remove('done-task')
+        }
+      })
     })
   }
 }
