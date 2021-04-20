@@ -21,6 +21,7 @@ class Task{
     this.priority = priority;
     this.project = project;
     this.id = Date.now().toString();
+    this.status = false;
   }
 }
 let predefinedProjects = [new Project('Inbox'), new Project('Today'), new Project('Tomorrow')]
@@ -102,7 +103,7 @@ function displayTaskForm(){
   const titleLabel = taskForm.appendChild(document.createElement('label'));
   titleLabel.setAttribute('class', 'form-label');
   titleLabel.setAttribute('for','task-title' );
-  titleLabel.innerHTML = 'Name';
+  titleLabel.innerHTML = 'Title';
 
   const titleInput = taskForm.appendChild(document.createElement('input'));
   titleInput.setAttribute('class', 'form-control task-title w-50');
@@ -291,14 +292,30 @@ function displayTodos(id){
       todoLabel.innerHTML = item.description;
       
       todoCheckBox.addEventListener('click', ()=>{
-        if (todoCheckBox.checked){
-          todoLabel.classList.add('done-task');
-        }else{
-          todoLabel.classList.remove('done-task')
-        }
+        console.log(item.status);
+        // if (item.status === true){
+        //   console.log(item.status);
+        //   // todoLabel.classList.add('done-task');
+        // }else{
+        //   console.log(item);
+        //   // todoLabel.classList.remove('done-task')
+        // }
+        updateStatus(projects, project, item.id)
       })
     })
   }
+}
+
+function updateStatus(projects, project, id){
+  let todo = project.todos.find((element)=> element.id = id);
+  // console.log(id)
+  // console.log(todo.description)
+  if(todo.status === true){
+    todo.status = false;
+  }else{
+    todo.status = true;
+  }
+  localStorage.toDoProjects = JSON.stringify(projects);
 }
 
 
