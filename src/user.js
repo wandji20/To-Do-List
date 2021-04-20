@@ -281,7 +281,7 @@ function displayTodos(id){
     project.todos.forEach((item)=>{
 
       const itemCont = projectContainer.appendChild(document.createElement('div'));
-      itemCont.setAttribute('class', 'd-flex justify-content-between')
+      itemCont.setAttribute('class', `d-flex justify-content-between ${item.id}`);
       const pTag = itemCont.appendChild(document.createElement('p'));
 
       let todoCheckBox = pTag.appendChild(document.createElement('input'))
@@ -303,6 +303,10 @@ function displayTodos(id){
       const removeBtn = span.appendChild(document.createElement('button'));
       removeBtn.setAttribute('class', 'bg-danger btn')
       removeBtn.innerHTML = 'Remove'
+      removeBtn.addEventListener('click', (e)=>{
+        projectContainer.removeChild(e.target.parentNode.parentNode)
+        removeTodo(projects, project, item.id)
+      })
 
       if(item.status){
         todoCheckBox.checked = true;
@@ -337,6 +341,10 @@ function updateStatus(projects, project, id){
   localStorage.toDoProjects = JSON.stringify(projects);
 }
 
+function removeTodo(projects, project, todoId){
+  project.todos = project.todos.filter((x)=> x.id !== todoId)
+  localStorage.toDoProjects = JSON.stringify(projects);
+}
 
 
 
