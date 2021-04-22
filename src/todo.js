@@ -4,7 +4,7 @@ import { getProjects, start } from './user';
 class Todo {
   constructor(title, date, description, priority, project) {
     this.title = title;
-    this.date = date
+    this.date = date;
     this.description = description;
     this.priority = priority;
     this.project = project;

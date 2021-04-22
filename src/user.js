@@ -2,19 +2,32 @@ import displayNav from './nav';
 import displayFooter from './footer';
 // eslint-disable-next-line import/no-cycle
 import { createTodo, updateStatus, removeTodo } from './todo';
-// // eslint-disable-next-line import/no-cycle
+// eslint-disable-next-line import/no-cycle
 import { Project, createProject, removeProject } from './project';
 
 // const selectedProjectId = localStorage.getItem('selectedProjectId');
 const container = document.getElementById('content');
 const predefinedProjects = [new Project('Inbox'), new Project('Today'), new Project('Tomorrow')];
-
+const priorities = [
+  {
+    name: 'Low',
+    color: '#de5d83',
+  },
+  {
+    name: 'Medium',
+    color: '#40e0d0',
+  },
+  {
+    name: 'High',
+    color: '#BFFF00',
+  },
+];
 
 function getProjects() {
   if (localStorage.getItem('toDoProjects')) {
     return JSON.parse(localStorage.getItem('toDoProjects'));
   }
-  return predefinedProjects
+  return predefinedProjects;
 }
 
 function clearContent(element) {
@@ -25,7 +38,7 @@ function displayProjects() {
   const projectsList = document.querySelector('.project-list');
   clearContent(projectsList);
   let selectedProjectId = localStorage.getItem('selectedProjectId');
-  let projects = getProjects();
+  const projects = getProjects();
 
   projects.forEach((project) => {
     const projectItem = projectsList.appendChild(document.createElement('h6'));
@@ -71,8 +84,8 @@ function displayTodoForm() {
   descriptionLabel.innerHTML = 'Description';
 
   const descriptionArea = todoForm.appendChild(document.createElement('textarea'));
-  descriptionArea.setAttribute('class', 'form-control mt-2 task-description w-75');
-  descriptionArea.setAttribute('placeholder', '     Add Task description');
+  descriptionArea.setAttribute('class', 'form-control mt-2 todo-description w-75');
+  descriptionArea.setAttribute('placeholder', '     Add Todo description');
 
   const priorityLabel = todoForm.appendChild(document.createElement('label'));
   priorityLabel.setAttribute('class', 'form-label mt-3');
@@ -81,25 +94,17 @@ function displayTodoForm() {
   const prioritySelectTag = todoForm.appendChild(document.createElement('select'));
   prioritySelectTag.setAttribute('class', 'form-select priority-select w-50');
 
-  const priorities = [
-      {
-        name:'Low',
-        color: '#de5d83'
-      },
-      {
-        name:'Medium',
-        color: '#40e0d0'
-      },
-      {
-        name:'High',
-        color: '#BFFF00'
-      },
-    ];
-  for (let i = 0; i < priorities.length; i += 1) {
+  const priorities = ['High', 'Medium', 'Low'];
+  priorities.forEach((priority) => {
     const option = prioritySelectTag.appendChild(document.createElement('option'));
-    option.setAttribute('value', priorities[i]);
-    option.innerHTML = priorities[i].name;
-  }
+    option.setAttribute('value', priority);
+    option.innerHTML = priority;
+  });
+  // for (let i = 0; i < priorities.length; i += 1) {
+  //   const option = prioritySelectTag.appendChild(document.createElement('option'));
+  //   option.setAttribute('value', priorities[i]);
+  //   option.innerHTML = priorities[i].name;
+  // }
 
   const projectLabel = todoForm.appendChild(document.createElement('label'));
   projectLabel.setAttribute('class', 'form-label  mt-3');
@@ -107,12 +112,12 @@ function displayTodoForm() {
 
   const projectSelectTag = todoForm.appendChild(document.createElement('select'));
   projectSelectTag.setAttribute('class', 'w-50 project-select form-select');
-  let projects = getProjects();
-  let selectedProjectId = localStorage.getItem('selectedProjectId')
+  const projects = getProjects();
+  const selectedProjectId = localStorage.getItem('selectedProjectId');
 
   if (selectedProjectId) {
     const option = projectSelectTag.appendChild(document.createElement('option'));
-    const project = projects.find( element => element.id === selectedProjectId);
+    const project = projects.find((element) => element.id === selectedProjectId);
     option.setAttribute('value', project.name);
     option.innerHTML = project.name;
   } else {
@@ -127,7 +132,7 @@ function displayTodoForm() {
   buttons.setAttribute('class', 'd-flex justify-content-between mt-4 w-75 mx-auto');
   const createTodoBtn = buttons.appendChild(document.createElement('button'));
   createTodoBtn.setAttribute('class', 'btn btn-info');
-  createTodoBtn.innerHTML = 'Create Task';
+  createTodoBtn.innerHTML = 'Create Todo';
 
   createTodoBtn.addEventListener('click', () => {
     const title = titleInput.value;
@@ -145,7 +150,7 @@ function displayTodoForm() {
 }
 
 function displayTodos() {
-  let selectedProjectId = localStorage.getItem('selectedProjectId')
+  const selectedProjectId = localStorage.getItem('selectedProjectId');
   const projects = getProjects();
   const project = projects.find((element) => element.id === selectedProjectId);
 
@@ -171,14 +176,31 @@ function displayTodos() {
 
       const todoLabel = pTag.appendChild(document.createElement('label'));
       todoLabel.setAttribute('class', `d-inline-block ${item.priority.color}`);
-      todoLabel.setAttribute('for', item.id);
+      // todoLabel.setAttribute('for', item.id);
       todoLabel.innerHTML = item.description;
 
       const span = itemCont.appendChild(document.createElement('span'));
       span.setAttribute('class', 'd-inline-block');
       const editBtn = span.appendChild(document.createElement('button'));
       editBtn.setAttribute('class', 'bg-info btn mr-2');
-      editBtn.innerHTML = 'Edit';
+      editBtn.innerHTML = 'Change Priority';
+      editBtn.addEventListener('click', () => {
+      // clearContent(span)
+      // console.log(item)
+
+        //   let select = itemCont.appendChild(document.createElement('select'));
+        //   select.setAttribute('class', 'mr-5')
+        console.log(item.priority);
+        for (let i = 0; i < priorities.length; i += 1) {
+          // const option = select.appendChild(document.createElement('option'));
+          // option.setAttribute('value', priorities[i]);
+          // option.innerHTML = priorities[i].name;
+
+          // console.log(priorities[i])
+
+        }
+      });
+
       const removeBtn = span.appendChild(document.createElement('button'));
       removeBtn.setAttribute('class', 'bg-danger btn');
       removeBtn.innerHTML = 'Remove';
@@ -206,7 +228,7 @@ function displayTodos() {
     deleteProjectBtn.setAttribute('class', 'btn btn-danger remove-project-btn');
     deleteProjectBtn.innerHTML = 'Delete Project';
     deleteProjectBtn.addEventListener('click', () => {
-      if(project.name.toLowerCase() !== 'inbox'){
+      if (project.name.toLowerCase() !== 'inbox') {
         const removed = document.getElementById(project.id);
 
         const projectList = document.querySelector('.project-list');
@@ -215,10 +237,9 @@ function displayTodos() {
 
         projectList.removeChild(removed);
         removeProject(projects, project);
-       }else{
+      } else {
         alert('Cannot remove default project');
       }
-      
     });
   }
 }

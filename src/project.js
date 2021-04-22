@@ -7,28 +7,28 @@ class Project {
     this.id = name.toLowerCase();
     this.todos = [];
   }
-
 }
 
 function createProject(target) {
   const projects = getProjects();
-  const invalidName = projects.find((element)=> element.name.toLowerCase() === target.value.toLowerCase())
+  const targetValue = target.value.toLowerCase();
+  const invalidName = projects.find((element) => element.name.toLowerCase() === targetValue);
 
   if (target.value !== '' && !invalidName) {
     const newProject = new Project(target.value);
     projects.push(newProject);
     localStorage.toDoProjects = JSON.stringify(projects);
- 
+
     start();
   } else {
     alert('Project name already exist or empty');
   }
-  target.value = ''
+  target.value = '';
 }
 
 function removeProject(projects, project) {
   console.log(project.id);
-  projects = projects.filter( element => element.id !== project.id);
+  projects = projects.filter((element) => element.id !== project.id);
   console.log(project);
   localStorage.toDoProjects = JSON.stringify(projects);
 }
