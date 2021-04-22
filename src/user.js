@@ -1,7 +1,7 @@
 import displayNav from './nav';
 import displayFooter from './footer';
 // eslint-disable-next-line import/no-cycle
-import { createTodo, updateStatus, removeTodo } from './todo';
+import { createTodo, updateStatus, removeTodo, Todo } from './todo';
 // eslint-disable-next-line import/no-cycle
 import { Project, createProject, removeProject } from './project';
 
@@ -25,7 +25,19 @@ const priorities = [
 
 function getProjects() {
   if (localStorage.getItem('toDoProjects')) {
-    return JSON.parse(localStorage.getItem('toDoProjects'));
+    // return JSON.parse(localStorage.getItem('toDoProjects'));
+    let projects = JSON.parse(localStorage.getItem('toDoProjects'));
+    let newProjects =[];
+    projects.forEach((project)=>{
+      let newProject = new Project(project.name)
+      let projectTodos = project.todos;
+      projectTodos.forEach((todo)=>{
+        let newTodo = new Todo(todo.title, todo.date, todo.description, todo.priority, todo.project)
+        newProject.todos.push(newTodo);
+      })
+      newProjects.push(newProject);
+    })
+    return newProjects
   }
   return predefinedProjects;
 }
@@ -60,7 +72,7 @@ function displayTodoForm() {
   const projectContainer = document.querySelector('.project-container');
   clearContent(projectContainer);
   const todoForm = projectContainer.appendChild(document.createElement('form'));
-  todoForm.setAttribute('class', ' mx-auto mt-3');
+  todoForm.setAttribute('class', ' mx-auto mt-3 todo-form');
 
   const titleLabel = todoForm.appendChild(document.createElement('label'));
   titleLabel.setAttribute('class', 'form-label');
@@ -107,7 +119,7 @@ function displayTodoForm() {
   // }
 
   const projectLabel = todoForm.appendChild(document.createElement('label'));
-  projectLabel.setAttribute('class', 'form-label  mt-3');
+  projectLabel.setAttribute('class', 'form-label project-select-label mt-3');
   projectLabel.innerHTML = 'Select Project';
 
   const projectSelectTag = todoForm.appendChild(document.createElement('select'));
@@ -129,9 +141,9 @@ function displayTodoForm() {
   }
 
   const buttons = projectContainer.appendChild(document.createElement('p'));
-  buttons.setAttribute('class', 'd-flex justify-content-between mt-4 w-75 mx-auto');
+  buttons.setAttribute('class', 'd-flex justify-content-between mt-4 w-75 mx-auto todo-buttons');
   const createTodoBtn = buttons.appendChild(document.createElement('button'));
-  createTodoBtn.setAttribute('class', 'btn btn-info');
+  createTodoBtn.setAttribute('class', 'btn btn-info create-todo');
   createTodoBtn.innerHTML = 'Create Todo';
 
   createTodoBtn.addEventListener('click', () => {
@@ -143,20 +155,20 @@ function displayTodoForm() {
     createTodo(title, date, description, priority, project);
   });
 
-  const cancelTaskBtn = buttons.appendChild(document.createElement('button'));
-  cancelTaskBtn.setAttribute('class', 'btn btn-danger');
-  cancelTaskBtn.innerHTML = 'Cancel';
-  cancelTaskBtn.addEventListener('click', displayProjects);
+  const cancelTodoBtn = buttons.appendChild(document.createElement('button'));
+  cancelTodoBtn.setAttribute('class', 'btn btn-danger cancel-todo');
+  cancelTodoBtn.innerHTML = 'Cancel';
+  cancelTodoBtn.addEventListener('click', displayProjects);
 }
 
 function displayTodos() {
   const selectedProjectId = localStorage.getItem('selectedProjectId');
   const projects = getProjects();
-  const project = projects.find((element) => element.id === selectedProjectId);
-
+  let project = projects.find((element) => element.id === selectedProjectId);
   const projectContainer = document.querySelector('.project-container');
   clearContent(projectContainer);
   if (project) {
+
     const projectDetails = projectContainer.appendChild(document.createElement('p'));
     projectDetails.setAttribute('class', 'd-flex justify-content-around active');
 
@@ -175,30 +187,54 @@ function displayTodos() {
       todoCheckBox.setAttribute('id', item.id);
 
       const todoLabel = pTag.appendChild(document.createElement('label'));
-      todoLabel.setAttribute('class', `d-inline-block ${item.priority.color}`);
+      todoLabel.setAttribute('class', `d-inline-block `);
       // todoLabel.setAttribute('for', item.id);
-      todoLabel.innerHTML = item.description;
+      todoLabel.innerHTML = item.title;
 
       const span = itemCont.appendChild(document.createElement('span'));
       span.setAttribute('class', 'd-inline-block');
       const editBtn = span.appendChild(document.createElement('button'));
       editBtn.setAttribute('class', 'bg-info btn mr-2');
-      editBtn.innerHTML = 'Change Priority';
+      editBtn.innerHTML = 'EditTodo';
       editBtn.addEventListener('click', () => {
-      // clearContent(span)
-      // console.log(item)
+        clearContent(projectContainer);
+        displayTodoForm();
+        document.querySelector('.todo-title').value = item.title;
+        document.querySelector('.todo-date').value = item.date;
+        document.querySelector('.priority-select').value = item.priority;
+        document.querySelector('.todo-description').value = item.description;
+        let projectSelect = document.querySelector('.project-select');
+        let projectSelectLabel = document.querySelector('.project-select-label');
+        let todoForm = document.querySelector('.todo-form')
+        todoForm.removeChild(projectSelect);
+        todoForm.removeChild(projectSelectLabel);
 
-        //   let select = itemCont.appendChild(document.createElement('select'));
-        //   select.setAttribute('class', 'mr-5')
-        console.log(item.priority);
-        for (let i = 0; i < priorities.length; i += 1) {
-          // const option = select.appendChild(document.createElement('option'));
-          // option.setAttribute('value', priorities[i]);
-          // option.innerHTML = priorities[i].name;
+        let buttonsContainer = document.querySelector('.todo-buttons');
+        let createButton = document.querySelector('.create-todo');
+        buttonsContainer.removeChild(createButton);
 
-          // console.log(priorities[i])
+        let cancelTodoButton = document.querySelector('.cancel-todo');
 
-        }
+        const updateTodoBtn = buttonsContainer.insertBefore(document.createElement('button'), cancelTodoButton);
+        updateTodoBtn.setAttribute('class', 'btn btn-info');
+        updateTodoBtn.innerHTML = 'Save Changes';
+        updateTodoBtn.addEventListener('click', ()=>{
+          let title = document.querySelector('.todo-title').value;
+          let date = document.querySelector('.todo-date').value;
+          let description = document.querySelector('.todo-description').value;
+          let priority = document.querySelector('.priority-select').value;
+          item = item.updateTodo(title, date, description, priority);
+          console.log(item)
+          localStorage.toDoProjects = JSON.stringify(projects);
+          console.log(projects)
+          // console.log(item instanceof Todo)
+          // console.log(item)
+          // updateTodo();
+          // console.log(project.todos);
+          // console.log(item)
+          displayTodos()
+
+        })
       });
 
       const removeBtn = span.appendChild(document.createElement('button'));

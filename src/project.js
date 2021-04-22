@@ -7,6 +7,20 @@ class Project {
     this.id = name.toLowerCase();
     this.todos = [];
   }
+  // calc() {
+  //   return 'new project' ;
+  // }
+  // function updateTodo(){
+  //   item.title = title;
+  //   item.date = date;
+  //   item.description = description;
+  //   item.priority = priority;
+  //   // let project = projects.find((element) => element.id === selectedProjectId);
+    
+  //   localStorage.toDoProjects = JSON.stringify(projects);
+  // }
+ 
+  
 }
 
 function createProject(target) {

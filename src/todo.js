@@ -11,6 +11,15 @@ class Todo {
     this.id = Date.now().toString();
     this.status = false;
   }
+
+  updateTodo(title, date, description, priority){
+    this.title = title;
+    this.date = date;
+    this.description = description;
+    this.priority = priority;
+    return this;
+    // localStorage.toDoProjects = JSON.stringify(projects);
+  }
 }
 
 function createTodo(title, date, description, priority, project) {
@@ -43,6 +52,14 @@ function removeTodo(projects, project, todoId) {
   project.todos = project.todos.filter((x) => x.id !== todoId);
   localStorage.toDoProjects = JSON.stringify(projects);
 }
+
+// function updateTodo(title, date, description, priority, projects){
+//   item.title = title;
+//   item.date = date;
+//   item.description = description;
+//   item.priority = priority;
+//   localStorage.toDoProjects = JSON.stringify(projects);
+// }
 
 export {
   Todo, createTodo, updateStatus, removeTodo,
