@@ -4,31 +4,32 @@ import { getProjects, start } from './user';
 class Project {
   constructor(name) {
     this.name = name;
-    this.id = Date.now().toString();
+    this.id = name.toLowerCase();
     this.todos = [];
   }
 
-  getName() {
-    return this.name;
-  }
 }
 
 function createProject(target) {
   const projects = getProjects();
-  if (target.value !== '') {
+  const invalidName = projects.find((element)=> element.name.toLowerCase() === target.value.toLowerCase())
+
+  if (target.value !== '' && !invalidName) {
     const newProject = new Project(target.value);
     projects.push(newProject);
     localStorage.toDoProjects = JSON.stringify(projects);
-    target.value = '';
+ 
     start();
   } else {
-    alert('Please add a Project Name');
+    alert('Project name already exist or empty');
   }
+  target.value = ''
 }
 
 function removeProject(projects, project) {
-  projects = projects.filter((element) => element.id !== project.id);
-  console.log(projects);
+  console.log(project.id);
+  projects = projects.filter( element => element.id !== project.id);
+  console.log(project);
   localStorage.toDoProjects = JSON.stringify(projects);
 }
 

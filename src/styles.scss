@@ -32,7 +32,7 @@ footer {
 }
 
 .task-section {
-  background-color: lightgreen;
+  // background-color: lightgreen;
 }
 
 .project-container {
@@ -70,4 +70,16 @@ textarea {
 h3:hover {
   background-color: lightgrey;
   cursor: pointer;
+}
+
+.bg-low {
+  background: #de5d83;
+}
+.bg-medium {
+  background: #40e0d0;
+}
+
+.bg-high {
+  background: #bfff00;
+  // background-color: lightgreen;
 }

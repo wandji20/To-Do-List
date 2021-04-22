@@ -2,8 +2,9 @@
 import { getProjects, start } from './user';
 
 class Todo {
-  constructor(title, description, priority, project) {
+  constructor(title, date, description, priority, project) {
     this.title = title;
+    this.date = date
     this.description = description;
     this.priority = priority;
     this.project = project;
@@ -12,12 +13,12 @@ class Todo {
   }
 }
 
-function createTodo(title, description, priority, project) {
+function createTodo(title, date, description, priority, project) {
   const projects = getProjects();
 
-  if (title !== '' && description !== '' && priority !== '' && project !== '') {
+  if (title !== '' && description !== '' && priority !== '' && project !== '' && date !== '') {
     const selectedProjectIndex = projects.findIndex(({ name }) => name === project);
-    const newTodo = new Todo(title, description, priority, project);
+    const newTodo = new Todo(title, date, description, priority, project);
     projects[selectedProjectIndex].todos.push(newTodo);
     localStorage.toDoProjects = JSON.stringify(projects);
     start();
