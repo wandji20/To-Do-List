@@ -1,57 +1,89 @@
 @import "bootstrap";
 
-body {
-  width: 100%;
-  padding: 0;
-  margin: 0;
-}
-
-#content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  height: 100vh;
-  border: 3px solid black;
-}
-
-span,
-input {
-  border: none;
-  border-radius: 3px;
-}
-
-form input {
-  height: 35px;
-}
-
-#content span {
-  background: #000;
-  border-radius: 5px;
-  margin-left: -4px;
-}
-
-#content div {
-  align-self: center;
-}
-
-.remove-padding {
-  padding-left: 0;
-  padding-right: 0;
-}
-
-.selected {
-  text-decoration: line-through;
-  // color: transparent;
-  text-shadow: 0 0 8px #444;
-}
-
-li {
-  list-style: none;
-}
-
 .active {
   font-size: 150%;
   font-weight: 800;
+}
+
+#content {
+  height: 100vh;
+}
+
+footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4vh;
+}
+
+.nav {
+  height: 7vh;
+}
+
+.main-content {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 90vh;
+}
+
+.project-section {
+  background: #ddd;
+}
+
+.task-section {
+  // background-color: lightgreen;
+}
+
+.project-container {
+  height: 82vh;
+}
+
+.remove-project-btn {
+  position: fixed;
+  bottom: 7vh;
+  right: 35px;
+}
+
+.btn,
+.add-project {
+  border-radius: 5px;
+}
+
+.project-container form {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 75%;
+  margin: auto;
+}
+
+textarea {
+  border-radius: 6px;
+}
+
+.done-task {
+  text-decoration: line-through;
+  text-shadow: 0 0 8px #444;
+}
+
+.project-list h6:hover,
+h3:hover {
+  background-color: #666;
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 5px 0;
+  width: 50%;
+}
+
+.bg-low {
+  background: #de5d83;
+}
+
+.bg-medium {
+  background: #40e0d0;
+}
+
+.bg-high {
+  background: #bfff00;
+  // background-color: lightgreen;
 }
