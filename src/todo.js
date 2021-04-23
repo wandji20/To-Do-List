@@ -18,7 +18,6 @@ class Todo {
     this.description = description;
     this.priority = priority;
     return this;
-
   }
 }
 
@@ -52,7 +51,6 @@ function removeTodo(projects, project, todoId) {
   project.todos = project.todos.filter((x) => x.id !== todoId);
   localStorage.toDoProjects = JSON.stringify(projects);
 }
-
 
 export {
   Todo, createTodo, updateStatus, removeTodo,
