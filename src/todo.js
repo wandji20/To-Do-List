@@ -18,7 +18,7 @@ class Todo {
     this.description = description;
     this.priority = priority;
     return this;
-    // localStorage.toDoProjects = JSON.stringify(projects);
+
   }
 }
 
@@ -53,13 +53,6 @@ function removeTodo(projects, project, todoId) {
   localStorage.toDoProjects = JSON.stringify(projects);
 }
 
-// function updateTodo(title, date, description, priority, projects){
-//   item.title = title;
-//   item.date = date;
-//   item.description = description;
-//   item.priority = priority;
-//   localStorage.toDoProjects = JSON.stringify(projects);
-// }
 
 export {
   Todo, createTodo, updateStatus, removeTodo,
