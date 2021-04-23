@@ -1,6 +1,5 @@
 import './styles.scss';
 
-import { start, getProjects } from './user';
+import { start } from './user';
 
 start();
-console.log(getProjects())

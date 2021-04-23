@@ -12,7 +12,7 @@ class Todo {
     this.status = false;
   }
 
-  updateTodo(title, date, description, priority){
+  updateTodo(title, date, description, priority) {
     this.title = title;
     this.date = date;
     this.description = description;

@@ -1,43 +1,31 @@
 import displayNav from './nav';
 import displayFooter from './footer';
 // eslint-disable-next-line import/no-cycle
-import { createTodo, updateStatus, removeTodo, Todo } from './todo';
+import {
+  createTodo, updateStatus, removeTodo, Todo,
+} from './todo';
 // eslint-disable-next-line import/no-cycle
 import { Project, createProject, removeProject } from './project';
 
-// const selectedProjectId = localStorage.getItem('selectedProjectId');
 const container = document.getElementById('content');
 const predefinedProjects = [new Project('Inbox'), new Project('Today'), new Project('Tomorrow')];
-const priorities = [
-  {
-    name: 'Low',
-    color: '#de5d83',
-  },
-  {
-    name: 'Medium',
-    color: '#40e0d0',
-  },
-  {
-    name: 'High',
-    color: '#BFFF00',
-  },
-];
 
 function getProjects() {
   if (localStorage.getItem('toDoProjects')) {
-    // return JSON.parse(localStorage.getItem('toDoProjects'));
-    let projects = JSON.parse(localStorage.getItem('toDoProjects'));
-    let newProjects =[];
-    projects.forEach((project)=>{
-      let newProject = new Project(project.name)
-      let projectTodos = project.todos;
-      projectTodos.forEach((todo)=>{
-        let newTodo = new Todo(todo.title, todo.date, todo.description, todo.priority, todo.project)
+    const projects = JSON.parse(localStorage.getItem('toDoProjects'));
+    const newProjects = [];
+    projects.forEach((project) => {
+      const newProject = new Project(project.name);
+      const projectTodos = project.todos;
+      projectTodos.forEach((todo) => {
+        const newTodo = new Todo(
+          todo.title, todo.date, todo.description, todo.priority, todo.project,
+        );
         newProject.todos.push(newTodo);
-      })
+      });
       newProjects.push(newProject);
-    })
-    return newProjects
+    });
+    return newProjects;
   }
   return predefinedProjects;
 }
@@ -164,11 +152,10 @@ function displayTodoForm() {
 function displayTodos() {
   const selectedProjectId = localStorage.getItem('selectedProjectId');
   const projects = getProjects();
-  let project = projects.find((element) => element.id === selectedProjectId);
+  const project = projects.find((element) => element.id === selectedProjectId);
   const projectContainer = document.querySelector('.project-container');
   clearContent(projectContainer);
   if (project) {
-
     const projectDetails = projectContainer.appendChild(document.createElement('p'));
     projectDetails.setAttribute('class', 'd-flex justify-content-around active');
 
@@ -187,7 +174,7 @@ function displayTodos() {
       todoCheckBox.setAttribute('id', item.id);
 
       const todoLabel = pTag.appendChild(document.createElement('label'));
-      todoLabel.setAttribute('class', `d-inline-block `);
+      todoLabel.setAttribute('class', 'd-inline-block ');
       // todoLabel.setAttribute('for', item.id);
       todoLabel.innerHTML = item.title;
 
@@ -203,38 +190,32 @@ function displayTodos() {
         document.querySelector('.todo-date').value = item.date;
         document.querySelector('.priority-select').value = item.priority;
         document.querySelector('.todo-description').value = item.description;
-        let projectSelect = document.querySelector('.project-select');
-        let projectSelectLabel = document.querySelector('.project-select-label');
-        let todoForm = document.querySelector('.todo-form')
+        const projectSelect = document.querySelector('.project-select');
+        const projectSelectLabel = document.querySelector('.project-select-label');
+        const todoForm = document.querySelector('.todo-form');
         todoForm.removeChild(projectSelect);
         todoForm.removeChild(projectSelectLabel);
 
-        let buttonsContainer = document.querySelector('.todo-buttons');
-        let createButton = document.querySelector('.create-todo');
+        const buttonsContainer = document.querySelector('.todo-buttons');
+        const createButton = document.querySelector('.create-todo');
         buttonsContainer.removeChild(createButton);
 
-        let cancelTodoButton = document.querySelector('.cancel-todo');
+        const cancelTodoButton = document.querySelector('.cancel-todo');
 
         const updateTodoBtn = buttonsContainer.insertBefore(document.createElement('button'), cancelTodoButton);
         updateTodoBtn.setAttribute('class', 'btn btn-info');
         updateTodoBtn.innerHTML = 'Save Changes';
-        updateTodoBtn.addEventListener('click', ()=>{
-          let title = document.querySelector('.todo-title').value;
-          let date = document.querySelector('.todo-date').value;
-          let description = document.querySelector('.todo-description').value;
-          let priority = document.querySelector('.priority-select').value;
+        updateTodoBtn.addEventListener('click', () => {
+          const title = document.querySelector('.todo-title').value;
+          const date = document.querySelector('.todo-date').value;
+          const description = document.querySelector('.todo-description').value;
+          const priority = document.querySelector('.priority-select').value;
           item = item.updateTodo(title, date, description, priority);
-          console.log(item)
-          localStorage.toDoProjects = JSON.stringify(projects);
-          console.log(projects)
-          // console.log(item instanceof Todo)
-          // console.log(item)
-          // updateTodo();
-          // console.log(project.todos);
-          // console.log(item)
-          displayTodos()
 
-        })
+          localStorage.toDoProjects = JSON.stringify(projects);
+
+          displayTodos();
+        });
       });
 
       const removeBtn = span.appendChild(document.createElement('button'));
